@@ -106,16 +106,29 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+        padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Custom Text Input Section
-              _buildSectionHeader('Custom Text Input'),
+              // Practice Sentence Display
+              Text(
+                'Practice Sentence:',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.indigo,
+                ),
+              ),
+              const SizedBox(height: 16),
               Container(
+                width: double.infinity,
+                height: 120,
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
+                  color: Colors.indigo.shade50,
                   borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.indigo.shade200),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.1),
@@ -124,116 +137,113 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                     ),
                   ],
                 ),
-                child: TextField(
-                  controller: _textController,
-                  maxLines: 4,
-                  onChanged: (value) {
-                    setState(() {
-                      customText = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Enter your custom text to practice pronunciation...',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.indigo.shade200),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.indigo.shade400, width: 2),
+                child: SingleChildScrollView(
+                  child: Text(
+                    customText.isEmpty 
+                        ? 'The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet and is perfect for pronunciation practice.'
+                        : customText,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.indigo.shade700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
                 ),
               ),
               
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              const SizedBox(height: 40),
               
-              // Recording Section
-              if (customText.isNotEmpty) ...[
-                Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Practice Text:',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                      Container(
-                        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-                        decoration: BoxDecoration(
-                          color: Colors.indigo.shade50,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.indigo.shade200),
-                        ),
-                        child: Text(
-                          customText,
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.indigo.shade700,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                      
-                      // Recording Button
-                      AnimatedBuilder(
-                        animation: _pulseAnimation,
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: isRecording ? _pulseAnimation.value : 1.0,
-                            child: GestureDetector(
-                              onTap: isRecording ? null : _startRecording,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height: MediaQuery.of(context).size.width * 0.25,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: isRecording ? Colors.red.shade500 : Colors.indigo.shade500,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: (isRecording ? Colors.red : Colors.indigo).withOpacity(0.3),
-                                      blurRadius: 15,
-                                      offset: const Offset(0, 5),
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.mic,
-                                  size: MediaQuery.of(context).size.width * 0.1,
-                                  color: Colors.white,
-                                ),
+              // Recording Button
+              Center(
+                child: Column(
+                  children: [
+                    AnimatedBuilder(
+                      animation: _pulseAnimation,
+                      builder: (context, child) {
+                        return Transform.scale(
+                          scale: isRecording ? _pulseAnimation.value : 1.0,
+                          child: GestureDetector(
+                            onTap: isRecording ? null : _startRecording,
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isRecording ? Colors.red.shade500 : Colors.indigo.shade500,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: (isRecording ? Colors.red : Colors.indigo).withOpacity(0.3),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.mic,
+                                size: 40,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      isRecording ? 'Recording...' : 'Tap to record',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
                       ),
-                      
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      
-                      Text(
-                        isRecording ? 'Recording...' : 'Tap to record',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: MediaQuery.of(context).size.width * 0.035,
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // Custom Text Input Section (Optional)
+              ExpansionTile(
+                title: const Text(
+                  'Custom Text Input',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              ],
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      controller: _textController,
+                      maxLines: 4,
+                      onChanged: (value) {
+                        setState(() {
+                          customText = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Enter your custom text to practice pronunciation...',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.indigo.shade200),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.indigo.shade400, width: 2),
+                        ),
+                      ),
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
               
               // Feedback Section
               if (feedback.isNotEmpty && !isRecording) ...[
@@ -249,17 +259,18 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                   ),
                   child: Text(
                     feedback,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                    style: const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                const SizedBox(height: 24),
               ],
               
               // Customization Settings
+              const SizedBox(height: 24),
               _buildSectionHeader('Recording Settings'),
               _buildSliderSetting(
                 'Recording Duration',
@@ -286,7 +297,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                 },
               ),
               
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              const SizedBox(height: 16),
               
               _buildSectionHeader('Practice Mode'),
               _buildDropdownSetting(
@@ -301,7 +312,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                 },
               ),
               
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              const SizedBox(height: 16),
               
               _buildSectionHeader('Audio Settings'),
               _buildSwitchSetting(
@@ -334,13 +345,13 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height * 0.015,
-        top: MediaQuery.of(context).size.height * 0.01,
+        bottom: 12,
+        top: 8,
       ),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.045,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.indigo.shade700,
         ),
@@ -357,11 +368,11 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
     ValueChanged<double> onChanged,
   ) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+      margin: const EdgeInsets.only(bottom: 12),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -372,7 +383,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                   title,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontSize: 16,
                   ),
                 ),
                 Text(
@@ -380,7 +391,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                   style: TextStyle(
                     color: Colors.indigo.shade600,
                     fontWeight: FontWeight.bold,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                    fontSize: 14,
                   ),
                 ),
               ],
@@ -406,7 +417,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
     ValueChanged<bool> onChanged,
   ) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+      margin: const EdgeInsets.only(bottom: 12),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: SwitchListTile(
@@ -414,13 +425,13 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
           title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
+            fontSize: 16,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.035,
+            fontSize: 14,
           ),
         ),
         value: value,
@@ -438,7 +449,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
     ValueChanged<String?> onChanged,
   ) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+      margin: const EdgeInsets.only(bottom: 12),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
@@ -446,13 +457,13 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
           title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
+            fontSize: 16,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.035,
+            fontSize: 14,
           ),
         ),
         trailing: DropdownButton<String>(
@@ -464,7 +475,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
               child: Text(
                 item,
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+                  fontSize: 14,
                 ),
               ),
             );

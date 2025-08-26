@@ -131,54 +131,55 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Text(
                   'PronounceRight',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade800,
-                    fontSize: MediaQuery.of(context).size.width * 0.08,
+                    fontSize: 32,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                const SizedBox(height: 8),
                 Text(
                   'Perfect your pronunciation with AI',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Colors.grey.shade600,
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                const SizedBox(height: 60),
                 
                 // Company Logo (Recording Button)
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  height: MediaQuery.of(context).size.width * 0.35,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue.shade400,
-                        Colors.blue.shade600,
+                if (!showMenuButtons)
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.blue.shade400,
+                          Colors.blue.shade600,
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blue.withOpacity(0.3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
                       ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+                    child: const Icon(
+                      Icons.mic,
+                      size: 60,
+                      color: Colors.white,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.mic,
-                    size: MediaQuery.of(context).size.width * 0.15,
-                    color: Colors.white,
-                  ),
-                ),
                 
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                const SizedBox(height: 80),
                 
                 // Main Buttons or Menu Buttons
                 Expanded(
@@ -198,7 +199,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         // Start Button
         SizedBox(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.08,
+          height: 60,
           child: ElevatedButton(
             onPressed: _handleStartPressed,
             style: ElevatedButton.styleFrom(
@@ -211,21 +212,21 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             ),
             child: Text(
               'Start',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontSize: 20,
               ),
             ),
           ),
         ),
         
-        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+        const SizedBox(height: 20),
         
         // Join a Member Button
         SizedBox(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.08,
+          height: 60,
           child: OutlinedButton(
             onPressed: () {
               HapticFeedback.lightImpact();
@@ -242,10 +243,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             ),
             child: Text(
               'Join a Member',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.blue.shade600,
-                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontSize: 20,
               ),
             ),
           ),
@@ -256,6 +257,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   Widget _buildMenuButtons() {
     final menuItems = [
+      {'name': 'Translation Page', 'icon': Icons.translate, 'color': Colors.green},
       {'name': 'Pronunciation Practice', 'icon': Icons.record_voice_over, 'color': Colors.blue},
       {'name': 'History', 'icon': Icons.history, 'color': Colors.purple},
       {'name': 'Settings', 'icon': Icons.settings, 'color': Colors.grey},
@@ -269,11 +271,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           child: IconButton(
             onPressed: _handleBackPressed,
             icon: const Icon(Icons.arrow_back),
-            iconSize: MediaQuery.of(context).size.width * 0.07,
+            iconSize: 28,
           ),
         ),
         
-        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+        const SizedBox(height: 20),
         
         // Menu Buttons
         Expanded(
@@ -281,10 +283,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             position: _slideAnimation,
             child: Column(
               children: menuItems.map((item) => Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: SizedBox(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.09,
+                  height: 70,
                   child: ElevatedButton(
                     onPressed: () => _navigateToPage(item['name'] as String),
                     style: ElevatedButton.styleFrom(
@@ -303,22 +305,22 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                       children: [
                         Icon(
                           item['icon'] as IconData,
-                          size: MediaQuery.of(context).size.width * 0.07,
+                          size: 28,
                           color: (item['color'] as MaterialColor).shade600,
                         ),
-                        SizedBox(width: MediaQuery.of(context).size.width * 0.04),
+                        const SizedBox(width: 16),
                         Text(
                           item['name'] as String,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: (item['color'] as MaterialColor).shade700,
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                            fontSize: 16,
                           ),
                         ),
                         const Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
-                          size: MediaQuery.of(context).size.width * 0.04,
+                          size: 16,
                           color: (item['color'] as MaterialColor).shade400,
                         ),
                       ],

@@ -12,10 +12,8 @@ class _SettingsPageState extends State<SettingsPage> {
   bool notificationsEnabled = true;
   bool soundEnabled = true;
   bool hapticFeedbackEnabled = true;
-  String selectedLanguage = 'English';
   String selectedVoice = 'Female';
 
-  final List<String> languages = ['English', 'Spanish', 'French', 'German', 'Japanese'];
   final List<String> voices = ['Female', 'Male'];
 
   void _showResetDialog() {
@@ -61,10 +59,8 @@ class _SettingsPageState extends State<SettingsPage> {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             // User Information Section
@@ -89,8 +85,53 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
             ),
+            // Customization button under User Information
+            const SizedBox(height: 16.0),
+            SizedBox(
+              width: double.infinity,
+              height: 60.0,
+              child: ElevatedButton(
+                onPressed: _navigateToCustomization,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigo.shade50,
+                  foregroundColor: Colors.indigo.shade700,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                      color: Colors.indigo.shade200,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.tune,
+                      size: 28.0,
+                      color: Colors.indigo.shade600,
+                    ),
+                    const SizedBox(width: 16.0),
+                    Text(
+                      'Customization',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.indigo.shade700,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16.0,
+                      color: Colors.indigo.shade400,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            const SizedBox(height: 24.0),
             
             // App Settings Section
             _buildSectionHeader('App Settings'),
@@ -128,19 +169,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             
-            // Language Settings
-            _buildDropdownTile(
-              icon: Icons.language,
-              title: 'Language',
-              subtitle: 'App interface language',
-              value: selectedLanguage,
-              items: languages,
-              onChanged: (value) {
-                setState(() {
-                  selectedLanguage = value!;
-                });
-              },
-            ),
             _buildDropdownTile(
               icon: Icons.record_voice_over,
               title: 'Voice',
@@ -154,18 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            
-            // Customization Section
-            _buildSectionHeader('Customization'),
-            _buildInfoTile(
-              icon: Icons.tune,
-              title: 'Customization',
-              subtitle: 'Customize pronunciation input settings',
-              onTap: _navigateToCustomization,
-            ),
-            
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            const SizedBox(height: 24.0),
             
             // Data Management Section
             _buildSectionHeader('Data Management'),
@@ -177,7 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
               textColor: Colors.red,
             ),
             
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            const SizedBox(height: 24.0),
             
             // About Section
             _buildSectionHeader('About'),
@@ -205,14 +222,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height * 0.01,
-        top: MediaQuery.of(context).size.height * 0.01,
+      padding: const EdgeInsets.only(
+        bottom: 8.0,
+        top: 8.0,
       ),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.045,
+          fontSize: 18.0,
           fontWeight: FontWeight.bold,
           color: Colors.grey.shade700,
         ),
@@ -228,33 +245,33 @@ class _SettingsPageState extends State<SettingsPage> {
     Color? textColor,
   }) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+      margin: const EdgeInsets.only(bottom: 8.0),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: Icon(
           icon,
           color: textColor ?? Colors.grey.shade600,
-          size: MediaQuery.of(context).size.width * 0.06,
+          size: 24.0,
         ),
         title: Text(
           title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
+            fontSize: 16.0,
             color: textColor,
           ),
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.035,
+          style: const TextStyle(
+            fontSize: 14.0,
           ),
         ),
         trailing: onTap != null
             ? Icon(
                 Icons.arrow_forward_ios,
-                size: MediaQuery.of(context).size.width * 0.04,
+                size: 16.0,
                 color: Colors.grey.shade400,
               )
             : null,
@@ -271,26 +288,26 @@ class _SettingsPageState extends State<SettingsPage> {
     required ValueChanged<bool> onChanged,
   }) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+      margin: const EdgeInsets.only(bottom: 8.0),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: SwitchListTile(
         secondary: Icon(
           icon,
           color: Colors.grey.shade600,
-          size: MediaQuery.of(context).size.width * 0.06,
+          size: 24.0,
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
+            fontSize: 16.0,
           ),
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.035,
+          style: const TextStyle(
+            fontSize: 14.0,
           ),
         ),
         value: value,
@@ -309,26 +326,26 @@ class _SettingsPageState extends State<SettingsPage> {
     required ValueChanged<String?> onChanged,
   }) {
     return Card(
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+      margin: const EdgeInsets.only(bottom: 8.0),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: Icon(
           icon,
           color: Colors.grey.shade600,
-          size: MediaQuery.of(context).size.width * 0.06,
+          size: 24.0,
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
+            fontSize: 16.0,
           ),
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.035,
+          style: const TextStyle(
+            fontSize: 14.0,
           ),
         ),
         trailing: DropdownButton<String>(
@@ -339,8 +356,8 @@ class _SettingsPageState extends State<SettingsPage> {
               value: item,
               child: Text(
                 item,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
+                style: const TextStyle(
+                  fontSize: 14.0,
                 ),
               ),
             );

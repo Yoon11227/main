@@ -8,30 +8,27 @@ class TranslationPage extends StatefulWidget {
 }
 
 class _TranslationPageState extends State<TranslationPage> {
-  final TextEditingController _textController = TextEditingController();
-  String translatedText = '';
-  bool isTranslating = false;
+  String transcribedText = '';
+  bool isRecording = false;
 
-  void _translateText() async {
-    if (_textController.text.isEmpty) return;
-    
+  void _startRecording() async {
     setState(() {
-      isTranslating = true;
+      isRecording = true;
+      transcribedText = 'Recording...';
     });
     
-    // Simulate translation process
-    await Future.delayed(const Duration(seconds: 2));
+    // Simulate recording and transcription process
+    await Future.delayed(const Duration(seconds: 3));
     
     setState(() {
-      translatedText = 'Translated: ${_textController.text}';
-      isTranslating = false;
+      transcribedText = 'Hello, this is a sample transcribed text from your speech recording.';
+      isRecording = false;
     });
   }
 
   void _clearText() {
     setState(() {
-      _textController.clear();
-      translatedText = '';
+      transcribedText = '';
     });
   }
 
@@ -39,7 +36,7 @@ class _TranslationPageState extends State<TranslationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Translation'),
+        title: const Text('Translation Page'),
         backgroundColor: Colors.green.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -47,23 +44,28 @@ class _TranslationPageState extends State<TranslationPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.06),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Enter text to translate:',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              'Record your speech to convert to text:',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontSize: 20,
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            const SizedBox(height: 20),
             
-            // Input Text Field
+            // Transcribed Text Display
             Container(
+              width: double.infinity,
+              height: 200,
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
+                color: Colors.grey.shade50,
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.green.shade200),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.1),
@@ -72,129 +74,73 @@ class _TranslationPageState extends State<TranslationPage> {
                   ),
                 ],
               ),
-              child: TextField(
-                controller: _textController,
-                maxLines: 6,
-                decoration: InputDecoration(
-                  hintText: 'Type your text here...',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.green.shade200),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.green.shade400, width: 2),
+              child: SingleChildScrollView(
+                child: Text(
+                  transcribedText.isEmpty ? 'Transcribed text will appear here...' : transcribedText,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: transcribedText.isEmpty ? Colors.grey.shade500 : Colors.black,
                   ),
                 ),
-                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
               ),
             ),
             
-            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+            const SizedBox(height: 40),
             
-            // Action Buttons
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: isTranslating ? null : _translateText,
+            // Recording Button
+            Center(
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: isRecording ? null : _startRecording,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isRecording ? Colors.red.shade500 : Colors.green.shade500,
+                        boxShadow: [
+                          BoxShadow(
+                            color: (isRecording ? Colors.red : Colors.green).withOpacity(0.3),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.mic,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    isRecording ? 'Recording...' : 'Tap to record',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _clearText,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green.shade600,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
+                      backgroundColor: Colors.grey.shade100,
+                      foregroundColor: Colors.grey.shade700,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 2,
                     ),
-                    child: isTranslating
-                        ? SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                            height: MediaQuery.of(context).size.width * 0.05,
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            'Translate',
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.04,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    child: const Text('Clear Text'),
                   ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                ElevatedButton(
-                  onPressed: _clearText,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade100,
-                    foregroundColor: Colors.grey.shade700,
-                    padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 1,
-                  ),
-                  child: Icon(
-                    Icons.clear,
-                    size: MediaQuery.of(context).size.width * 0.05,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-            
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            
-            // Translation Result
-            if (translatedText.isNotEmpty) ...[
-              Text(
-                'Translation Result:',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: MediaQuery.of(context).size.width * 0.045,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.green.shade200),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.green.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  translatedText,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                  ),
-                ),
-              ),
-            ],
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
   }
 }
