@@ -4,10 +4,7 @@ import 'translation_page.dart';
 import 'pronunciation_practice_page.dart';
 import 'history_page.dart';
 import 'settings_page.dart';
-import 'translation_page.dart';
-import 'pronunciation_practice_page.dart';
-import 'history_page.dart';
-import 'settings_page.dart';
+import 'auth_page.dart';
 
 void main() {
   runApp(const PronounceRightApp());
@@ -71,6 +68,16 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       showMenuButtons = true;
     });
     _slideController.forward();
+  }
+
+  void _handleAuthPressed() {
+    HapticFeedback.lightImpact();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AuthPage(),
+      ),
+    );
   }
 
   void _handleBackPressed() {
@@ -210,9 +217,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: Text(
+            child: const Text(
               'Start',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 fontSize: 20,
@@ -223,17 +230,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         
         const SizedBox(height: 20),
         
-        // Join a Member Button
+        // Login/Sign Up Button
         SizedBox(
           width: double.infinity,
           height: 60,
           child: OutlinedButton(
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Join Member feature coming soon!')),
-              );
-            },
+            onPressed: _handleAuthPressed,
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.blue.shade600,
               side: BorderSide(color: Colors.blue.shade600, width: 2),
@@ -242,7 +244,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             child: Text(
-              'Join a Member',
+              '로그인 / 회원가입',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.blue.shade600,
