@@ -4,10 +4,7 @@ import 'translation_page.dart';
 import 'pronunciation_practice_page.dart';
 import 'history_page.dart';
 import 'settings_page.dart';
-import 'translation_page.dart';
-import 'pronunciation_practice_page.dart';
-import 'history_page.dart';
-import 'settings_page.dart';
+import 'screens/start.dart'; // StartPage import
 
 void main() {
   runApp(const PronounceRightApp());
@@ -25,7 +22,7 @@ class PronounceRightApp extends StatelessWidget {
         fontFamily: 'Roboto',
         useMaterial3: true,
       ),
-      home: const MainPage(),
+      home: const StartPage(), // 앱 시작 화면을 StartPage로 설정
       debugShowCheckedModeBanner: false,
     );
   }
@@ -196,7 +193,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   Widget _buildMainButtons() {
     return Column(
       children: [
-        // Start Button
         SizedBox(
           width: double.infinity,
           height: 60,
@@ -220,37 +216,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             ),
           ),
         ),
-        
-        const SizedBox(height: 20),
-        
-        // Join a Member Button
-        SizedBox(
-          width: double.infinity,
-          height: 60,
-          child: OutlinedButton(
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Join Member feature coming soon!')),
-              );
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.blue.shade600,
-              side: BorderSide(color: Colors.blue.shade600, width: 2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            child: Text(
-              '회원가입',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade600,
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -265,7 +230,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     return Column(
       children: [
-        // Back Button
         Align(
           alignment: Alignment.centerLeft,
           child: IconButton(
@@ -277,7 +241,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         
         const SizedBox(height: 20),
         
-        // Menu Buttons
         Expanded(
           child: SlideTransition(
             position: _slideAnimation,

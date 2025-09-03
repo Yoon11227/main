@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+import 'login_screen.dart';
+
+class ListScreen extends StatelessWidget {
+  const ListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> items = List.generate(20, (index) => "아이템 ${index + 1}");
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("리스트 화면"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: const Icon(Icons.list),
+            title: Text(items[index]),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("${items[index]} 선택됨")),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}

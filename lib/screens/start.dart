@@ -1,0 +1,309 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../main.dart';
+import 'register_screen.dart'; // 회원가입 페이지로 이동
+
+class StartPage extends StatefulWidget {
+  const StartPage({super.key});
+
+  @override
+  State<StartPage> createState() => _StartPageState();
+}
+
+class _StartPageState extends State<StartPage> with SingleTickerProviderStateMixin {
+  bool _showLoginForm = false; // 로그인 폼을 보여줄지 여부
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation; // 폼이 슬라이드 되는 애니메이션
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(0, 0),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleLoginButtonPressed() {
+    HapticFeedback.lightImpact();
+    setState(() {
+      _showLoginForm = true;
+      _slideAnimation = Tween<Offset>(
+        begin: const Offset(0, 0.5),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ));
+    });
+    _animationController.forward(); // 애니메이션 시작
+  }
+
+  void _performLogin() {
+    HapticFeedback.lightImpact();
+    // 테스트를 위해 로그인 로직 없이 바로 MainPage로 이동합니다.
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainPage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue.shade50,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.06),
+            child: Column(
+              children: [
+                // Header (App Title)
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Text(
+                  'ORO 번역기',
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade800,
+                    fontSize: 32,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '더 나은 소통을 위한 번역기',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Colors.grey.shade600,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                
+                const SizedBox(height: 60),
+                
+                // Company Logo (Microphone Button)
+                Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.blue.shade400,
+                        Colors.blue.shade600,
+                      ],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.3),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.mic,
+                    size: 60,
+                    color: Colors.white,
+                  ),
+                ),
+                
+                const SizedBox(height: 80),
+                
+                // Login Buttons or Form
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0.0, 0.5),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: _showLoginForm ? _buildLoginForm() : _buildInitialButtons(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInitialButtons() {
+    return Column(
+      key: const ValueKey('initial_buttons'),
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: ElevatedButton(
+            onPressed: _handleLoginButtonPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue.shade600,
+              foregroundColor: Colors.white,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: const Text(
+              '로그인',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: OutlinedButton(
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RegisterScreen()),
+              );
+            },
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.blue.shade600,
+              side: BorderSide(color: Colors.blue.shade600, width: 2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Text(
+              '회원가입',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade600,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return Column(
+      key: const ValueKey('login_form'),
+      children: [
+        // Text(
+        //   'ORO Project 로그인',
+        //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+        //     fontWeight: FontWeight.bold,
+        //     color: Colors.grey.shade800,
+        //   ),
+        // ),
+        const SizedBox(height: 40),
+        TextField(
+          controller: _emailController,
+          decoration: InputDecoration(
+            labelText: "이메일",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _passwordController,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: "비밀번호",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 24),
+        SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: ElevatedButton(
+            onPressed: _performLogin,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue.shade600,
+              foregroundColor: Colors.white,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: const Text(
+              "로그인",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        TextButton(
+          onPressed: () {
+            HapticFeedback.lightImpact();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const RegisterScreen()),
+            );
+          },
+          child: Text(
+            "회원가입하기",
+            style: TextStyle(
+              color: Colors.blue.shade600,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
