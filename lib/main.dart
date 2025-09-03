@@ -19,7 +19,7 @@ class PronounceRightApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PronounceRight',
+      title: 'ORO Project',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
@@ -93,13 +93,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   Widget _getPageWidget(String pageName) {
     switch (pageName) {
-      case 'Translation Page':
+      case '번역하기':
         return const TranslationPage();
-      case 'Pronunciation Practice':
+      case '발음 연습하기':
         return const PronunciationPracticePage();
-      case 'History':
+      case '기록보기':
         return const HistoryPage();
-      case 'Settings':
+      case '설정':
         return const SettingsPage();
       default:
         return const MainPage();
@@ -130,7 +130,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 // Header
                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Text(
-                  'PronounceRight',
+                  'ORO 번역기',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade800,
@@ -139,7 +139,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Perfect your pronunciation with AI',
+                  '더 나은 소통을 위한 번역기',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Colors.grey.shade600,
                     fontSize: 16,
@@ -211,7 +211,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             child: Text(
-              'Start',
+              '시작하기',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -242,7 +242,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
             ),
             child: Text(
-              'Join a Member',
+              '회원가입',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.blue.shade600,
@@ -257,10 +257,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   Widget _buildMenuButtons() {
     final menuItems = [
-      {'name': 'Translation Page', 'icon': Icons.translate, 'color': Colors.green},
-      {'name': 'Pronunciation Practice', 'icon': Icons.record_voice_over, 'color': Colors.blue},
-      {'name': 'History', 'icon': Icons.history, 'color': Colors.purple},
-      {'name': 'Settings', 'icon': Icons.settings, 'color': Colors.grey},
+      {'name': '번역하기', 'icon': Icons.translate, 'color': Colors.green},
+      {'name': '발음 연습하기', 'icon': Icons.record_voice_over, 'color': Colors.blue},
+      {'name': '기록보기', 'icon': Icons.history, 'color': Colors.purple},
+      {'name': '설정', 'icon': Icons.settings, 'color': Colors.grey},
     ];
 
     return Column(

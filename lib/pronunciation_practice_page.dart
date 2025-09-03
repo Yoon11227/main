@@ -10,8 +10,8 @@ class PronunciationPracticePage extends StatefulWidget {
 
 class _PronunciationPracticePageState extends State<PronunciationPracticePage> with TickerProviderStateMixin {
   final List<String> practiceWords = [
-    'pronunciation', 'beautiful', 'wonderful', 'communication', 
-    'international', 'education', 'development', 'environment'
+    '발음', '숫사슴', '챠프포프킨', '간장공장 공장장', 
+    '경찰청 쇠창살', '라디오', '언어', '토마토'
   ];
   
   String selectedWord = '';
@@ -54,7 +54,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
     
     setState(() {
       isRecording = true;
-      feedback = 'Recording...';
+      feedback = '녹음 중...';
     });
     
     _pulseController.repeat(reverse: true);
@@ -70,8 +70,8 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
     setState(() {
       isRecording = false;
       feedback = isCorrect 
-          ? 'Excellent pronunciation! Score: $score%' 
-          : 'Good try! Focus on vowel sounds. Score: $score%';
+          ? '좋은 발음이예요! 점수: $score%' 
+          : '좋아요! 좀 더 연습해볼까요? 점수: $score%';
     });
   }
 
@@ -87,7 +87,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pronunciation Practice'),
+        title: const Text('발음 연습하기'),
         backgroundColor: Colors.blue.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -106,7 +106,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Choose a word to practice:',
+              '연습할 단어를 선택해주세요:',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.width * 0.05,
@@ -172,7 +172,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
                 child: Column(
                   children: [
                     Text(
-                      'Practice Word:',
+                      '단어 연습하기:',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontSize: MediaQuery.of(context).size.width * 0.04,
                       ),
@@ -224,7 +224,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     
                     Text(
-                      isRecording ? 'Recording...' : 'Tap to record',
+                      isRecording ? '녹음 중...' : '녹음하려면 탭하세요',
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: MediaQuery.of(context).size.width * 0.035,

@@ -52,14 +52,14 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
   void _startRecording() async {
     if (customText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter text to practice first!')),
+        const SnackBar(content: Text('먼저 연습할 텍스트를 입력하세요!')),
       );
       return;
     }
     
     setState(() {
       isRecording = true;
-      feedback = 'Recording...';
+      feedback = '녹음중...';
     });
     
     _pulseController.repeat(reverse: true);
@@ -75,8 +75,8 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
     setState(() {
       isRecording = false;
       feedback = isCorrect 
-          ? 'Excellent pronunciation! Score: $score%' 
-          : 'Good effort! Try focusing on clarity. Score: $score%';
+          ? '훌륭한 발음입니다! 점수: $score%' 
+          : '수고하셨습니다! 좀 더 명확하게 발음해보세요. 점수: $score%';
     });
   }
 
@@ -92,7 +92,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pronunciation Customization'),
+        title: const Text('발음 맞춤 설정'),
         backgroundColor: Colors.indigo.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -113,7 +113,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
             children: [
               // Practice Sentence Display
               Text(
-                'Practice Sentence:',
+                '연습 문장:',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -140,7 +140,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                 child: SingleChildScrollView(
                   child: Text(
                     customText.isEmpty 
-                        ? 'The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet and is perfect for pronunciation practice.'
+                        ? '어눌한 말을 텍스트로 보여주는 앱을 위한 발음 연습입니다.'
                         : customText,
                     style: TextStyle(
                       fontSize: 16,
@@ -190,7 +190,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      isRecording ? 'Recording...' : 'Tap to record',
+                      isRecording ? '녹음 중...' : '녹음하려면 탭하세요',
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 14,
@@ -205,7 +205,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
               // Custom Text Input Section (Optional)
               ExpansionTile(
                 title: const Text(
-                  'Custom Text Input',
+                  '원하는 문장 입력',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -223,7 +223,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                         });
                       },
                       decoration: InputDecoration(
-                        hintText: 'Enter your custom text to practice pronunciation...',
+                        hintText: '연습할 문장을 입력하세요...',
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -271,10 +271,10 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
               
               // Customization Settings
               const SizedBox(height: 24),
-              _buildSectionHeader('Recording Settings'),
+              _buildSectionHeader('녹음 설정'),
               _buildSliderSetting(
-                'Recording Duration',
-                '${recordingDuration.round()} seconds',
+                '녹음 시간',
+                '${recordingDuration.round()} 초',
                 recordingDuration,
                 1.0,
                 10.0,
@@ -285,7 +285,7 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                 },
               ),
               _buildSliderSetting(
-                'Feedback Sensitivity',
+                '피드백 민감도',
                 '${(feedbackSensitivity * 100).round()}%',
                 feedbackSensitivity,
                 0.1,
@@ -299,10 +299,10 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
               
               const SizedBox(height: 16),
               
-              _buildSectionHeader('Practice Mode'),
+              _buildSectionHeader('연습 모드'),
               _buildDropdownSetting(
-                'Pronunciation Mode',
-                'Choose practice type',
+                '발음 모드',
+                '연습 유형 선택',
                 pronunciationMode,
                 pronunciationModes,
                 (value) {
@@ -314,10 +314,10 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
               
               const SizedBox(height: 16),
               
-              _buildSectionHeader('Audio Settings'),
+              _buildSectionHeader('오디오 설정'),
               _buildSwitchSetting(
-                'Auto Playback',
-                'Play recording after completion',
+                '자동 재생',
+                '녹음 완료 후 재생',
                 autoPlayback,
                 (value) {
                   setState(() {
@@ -326,8 +326,8 @@ class _CustomizationPageState extends State<CustomizationPage> with TickerProvid
                 },
               ),
               _buildSwitchSetting(
-                'Show Waveform',
-                'Display audio waveform during recording',
+                '파형 표시',
+                '녹음 중 오디오 파형 표시',
                 showWaveform,
                 (value) {
                   setState(() {

@@ -10,47 +10,47 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   final List<Map<String, dynamic>> historyItems = [
     {
-      'word': 'pronunciation',
+      'word': '간장공장 공장장',
       'score': 92,
       'date': '2024-01-15',
-      'type': 'Practice',
+      'type': '연습',
       'attempts': 3,
     },
     {
-      'word': 'beautiful',
+      'word': '라디오',
       'score': 88,
       'date': '2024-01-14',
-      'type': 'Practice',
+      'type': '연습',
       'attempts': 2,
     },
     {
-      'word': 'wonderful',
+      'word': '숫사슴',
       'score': 95,
       'date': '2024-01-13',
-      'type': 'Practice',
+      'type': '시범',
       'attempts': 1,
     },
     {
-      'word': 'communication',
+      'word': '챠프포프킨',
       'score': 85,
       'date': '2024-01-12',
-      'type': 'Practice',
+      'type': '연습',
       'attempts': 4,
     },
     {
-      'word': 'international',
+      'word': '간장공장 공장장',
       'score': 90,
       'date': '2024-01-11',
-      'type': 'Practice',
+      'type': '번역',
       'attempts': 2,
     },
   ];
 
-  String selectedFilter = 'All';
-  final List<String> filterOptions = ['All', 'Practice', 'Test', 'Translation'];
+  String selectedFilter = '전체';
+  final List<String> filterOptions = ['전체', '연습', '시범', '번역'];
 
   List<Map<String, dynamic>> get filteredItems {
-    if (selectedFilter == 'All') return historyItems;
+    if (selectedFilter == '전체') return historyItems;
     return historyItems.where((item) => item['type'] == selectedFilter).toList();
   }
 
@@ -64,12 +64,12 @@ class _HistoryPageState extends State<HistoryPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear History'),
-        content: const Text('Are you sure you want to clear all history? This action cannot be undone.'),
+        title: const Text('기록 삭제하기'),
+        content: const Text('모든 기록을 삭제하시겠습니까? 삭제하고 난 이후엔 되돌릴 수 없습니다.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () {
@@ -78,10 +78,10 @@ class _HistoryPageState extends State<HistoryPage> {
               });
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('History cleared successfully!')),
+                const SnackBar(content: Text('모든 기록이 삭제되었습니다!')),
               );
             },
-            child: const Text('Clear'),
+            child: const Text('삭제'),
           ),
         ],
       ),
@@ -92,7 +92,7 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History'),
+        title: const Text('기록보기'),
         backgroundColor: Colors.purple.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -124,7 +124,7 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Column(
                 children: [
                   Text(
-                    'Your Practice Statistics',
+                    '발음 연습 기록',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.purple.shade700,
@@ -135,9 +135,9 @@ class _HistoryPageState extends State<HistoryPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildStatItem('Total', '${historyItems.length}', Icons.list),
-                      _buildStatItem('Avg Score', '${_calculateAverageScore()}%', Icons.trending_up),
-                      _buildStatItem('Best', '${_getBestScore()}%', Icons.star),
+                      _buildStatItem('합계', '${historyItems.length}', Icons.list),
+                      _buildStatItem('평균 점수', '${_calculateAverageScore()}%', Icons.trending_up),
+                      _buildStatItem('최고 점수', '${_getBestScore()}%', Icons.star),
                     ],
                   ),
                 ],
@@ -190,7 +190,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Text(
-                            'No history found',
+                            '기록이 없습니다',
                             style: TextStyle(
                               color: Colors.grey.shade600,
                               fontSize: MediaQuery.of(context).size.width * 0.04,
@@ -235,13 +235,13 @@ class _HistoryPageState extends State<HistoryPage> {
                               children: [
                                 SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                                 Text(
-                                  'Date: ${item['date']} • ${item['type']}',
+                                  '날짜: ${item['date']} • ${item['type']}',
                                   style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.width * 0.03,
                                   ),
                                 ),
                                 Text(
-                                  'Attempts: ${item['attempts']}',
+                                  '시도: ${item['attempts']}',
                                   style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.width * 0.03,
                                     color: Colors.grey.shade600,
@@ -316,16 +316,16 @@ class _HistoryPageState extends State<HistoryPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Score: ${item['score']}%'),
-            Text('Date: ${item['date']}'),
-            Text('Type: ${item['type']}'),
-            Text('Attempts: ${item['attempts']}'),
+            Text('점수: ${item['score']}%'),
+            Text('날짜: ${item['date']}'),
+            Text('유형: ${item['type']}'),
+            Text('시도: ${item['attempts']}'),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: const Text('닫기'),
           ),
         ],
       ),

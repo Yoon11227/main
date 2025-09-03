@@ -14,14 +14,14 @@ class _TranslationPageState extends State<TranslationPage> {
   void _startRecording() async {
     setState(() {
       isRecording = true;
-      transcribedText = 'Recording...';
+      transcribedText = '녹음 중...';
     });
     
     // Simulate recording and transcription process
     await Future.delayed(const Duration(seconds: 3));
     
     setState(() {
-      transcribedText = 'Hello, this is a sample transcribed text from your speech recording.';
+      transcribedText = '안녕하세요. 음성 녹음에서 변환된 샘플 텍스트입니다.';
       isRecording = false;
     });
   }
@@ -36,7 +36,7 @@ class _TranslationPageState extends State<TranslationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Translation Page'),
+        title: const Text('번역하기'),
         backgroundColor: Colors.green.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -49,7 +49,7 @@ class _TranslationPageState extends State<TranslationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Record your speech to convert to text:',
+              '음성을 텍스트로 변환하기 위해 녹음하세요:',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -76,7 +76,7 @@ class _TranslationPageState extends State<TranslationPage> {
               ),
               child: SingleChildScrollView(
                 child: Text(
-                  transcribedText.isEmpty ? 'Transcribed text will appear here...' : transcribedText,
+                  transcribedText.isEmpty ? '변환된 텍스트가 여기 표시됩니다...' : transcribedText,
                   style: TextStyle(
                     fontSize: 16,
                     color: transcribedText.isEmpty ? Colors.grey.shade500 : Colors.black,
@@ -116,7 +116,7 @@ class _TranslationPageState extends State<TranslationPage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    isRecording ? 'Recording...' : 'Tap to record',
+                    isRecording ? '녹음 중...' : '녹음하려면 탭하세요',
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 14,
@@ -133,7 +133,7 @@ class _TranslationPageState extends State<TranslationPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text('Clear Text'),
+                    child: const Text('텍스트 지우기'),
                   ),
                 ],
               ),

@@ -12,29 +12,29 @@ class _SettingsPageState extends State<SettingsPage> {
   bool notificationsEnabled = true;
   bool soundEnabled = true;
   bool hapticFeedbackEnabled = true;
-  String selectedVoice = 'Female';
+  String selectedVoice = '여성';
 
-  final List<String> voices = ['Female', 'Male'];
+  final List<String> voices = ['여성', '남성'];
 
   void _showResetDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Reset All Data'),
-        content: const Text('Are you sure you want to reset all data? This will clear your history, settings, and progress. This action cannot be undone.'),
+        title: const Text('모든 데이터 초기화'),
+        content: const Text('정말로 모든 데이터를 초기화하시겠습니까? 기록, 설정, 진행 상황이 모두 지워집니다. 이 작업은 되돌릴 수 없습니다.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('All data has been reset!')),
+                const SnackBar(content: Text('모든 데이터가 초기화 되었습니다!')),
               );
             },
-            child: const Text('Reset', style: TextStyle(color: Colors.red)),
+            child: const Text('초기화', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('설정'),
         backgroundColor: Colors.grey.shade600,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -64,24 +64,24 @@ class _SettingsPageState extends State<SettingsPage> {
         child: ListView(
           children: [
             // User Information Section
-            _buildSectionHeader('User Information'),
+            _buildSectionHeader('사용자 정보'),
             _buildInfoTile(
               icon: Icons.person,
-              title: 'Profile',
-              subtitle: 'Manage your profile information',
+              title: '프로필',
+              subtitle: '프로필 정보 관리',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Profile management coming soon!')),
+                  const SnackBar(content: Text('프로필 관리는 곧 추가될 예정입니다!')),
                 );
               },
             ),
             _buildInfoTile(
               icon: Icons.email,
-              title: 'Account',
+              title: '계정',
               subtitle: 'john.doe@example.com',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Account settings coming soon!')),
+                  const SnackBar(content: Text('계정 설정은 곧 추가될 예정입니다!')),
                 );
               },
             ),
@@ -113,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     const SizedBox(width: 16.0),
                     Text(
-                      'Customization',
+                      '맞춤 설정',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Colors.indigo.shade700,
@@ -134,11 +134,11 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24.0),
             
             // App Settings Section
-            _buildSectionHeader('App Settings'),
+            _buildSectionHeader('앱 성정'),
             _buildSwitchTile(
               icon: Icons.notifications,
-              title: 'Notifications',
-              subtitle: 'Receive practice reminders',
+              title: '알림',
+              subtitle: '연습 알림 받기',
               value: notificationsEnabled,
               onChanged: (value) {
                 setState(() {
@@ -148,8 +148,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             _buildSwitchTile(
               icon: Icons.volume_up,
-              title: 'Sound Effects',
-              subtitle: 'Play sounds for feedback',
+              title: '효과음',
+              subtitle: '피드백 시 효과음 재생',
               value: soundEnabled,
               onChanged: (value) {
                 setState(() {
@@ -159,8 +159,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             _buildSwitchTile(
               icon: Icons.vibration,
-              title: 'Haptic Feedback',
-              subtitle: 'Vibrate on button press',
+              title: '진동',
+              subtitle: '버튼 터치 시 진동',
               value: hapticFeedbackEnabled,
               onChanged: (value) {
                 setState(() {
@@ -171,8 +171,8 @@ class _SettingsPageState extends State<SettingsPage> {
             
             _buildDropdownTile(
               icon: Icons.record_voice_over,
-              title: 'Voice',
-              subtitle: 'Pronunciation guide voice',
+              title: '음성',
+              subtitle: '발음 안내 음성',
               value: selectedVoice,
               items: voices,
               onChanged: (value) {
@@ -185,11 +185,11 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24.0),
             
             // Data Management Section
-            _buildSectionHeader('Data Management'),
+            _buildSectionHeader('데이터 관리'),
             _buildInfoTile(
               icon: Icons.refresh,
-              title: 'Reset All Data',
-              subtitle: 'Clear all progress and settings',
+              title: '모든 데이터 초기화',
+              subtitle: '모든 진행 상황 및 설정 지우기',
               onTap: _showResetDialog,
               textColor: Colors.red,
             ),
@@ -197,20 +197,20 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24.0),
             
             // About Section
-            _buildSectionHeader('About'),
+            _buildSectionHeader('정보'),
             _buildInfoTile(
               icon: Icons.info,
-              title: 'App Version',
+              title: '앱 버전',
               subtitle: '1.0.0',
               onTap: null,
             ),
             _buildInfoTile(
               icon: Icons.help,
-              title: 'Help & Support',
-              subtitle: 'Get help with the app',
+              title: '도움말 및 지원',
+              subtitle: '앱 사용 도움말',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Help & Support coming soon!')),
+                  const SnackBar(content: Text('곧 추가될 기능입니다!')),
                 );
               },
             ),
